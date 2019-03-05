@@ -1,0 +1,17 @@
+{
+  "name": "Andaluh Telegram Bot",
+  "description": "You can transliterate your spanish to andaluh using bot.",
+  "keywords": [
+    "small",
+    "sharp",
+    "tool",
+    "translator",
+    "slack"
+  ],
+  "env": {
+    "TOKEN": {
+      "description": "Chat with Telegram's @BotFather to retrieve your token",
+      "required": true
+    }
+  }
+}
