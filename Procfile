@@ -1,1 +1,1 @@
-web: python andaluhbot.py
+app: andaluhbot.py
