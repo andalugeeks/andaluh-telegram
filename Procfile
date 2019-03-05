@@ -1,1 +1,1 @@
-app: python andaluhbot.py
+worker: python andaluhbot.py
