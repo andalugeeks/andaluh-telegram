@@ -1,1 +1,1 @@
-app: andaluhbot.py
+app: python andaluhbot.py
