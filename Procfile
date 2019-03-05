@@ -1,1 +1,1 @@
-worker: python andaluhbot.py
+web: python andaluhbot.py
