@@ -27,29 +27,6 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Words to ignore in the translitaration. Regex compilation.
-to_ignore_re = re.compile('|'.join([
-    r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', # URLs, i.e. http://www.andaluh.es, 
-    r'@\w+\b' # Telegram mentions, i.e. @andalgeeks
-]), re.IGNORECASE)
-
-def transliterate(query, vaf):
-    ignore = to_ignore_re.findall(query) # Words in the message not to transliterate
-    words = to_ignore_re.split(query) # Spanish words in the message to transliterate
-
-    if not ignore:
-        tags = []
-        message = query
-    else:
-        # Replace words to ignore in the transliteration with randints
-        tags = [x for x in zip(map(lambda x: str(random.randint(1,999999999)), ignore), ignore)]
-        message = ''.join(reduce(lambda x, y: ''.join(x) + ''.join(y), zip(words, [x[0] for x in tags])))
-        if len(words) > len(ignore): message += words[-1]
-
-    message_and = requests.get(API_BASEURL, params=dict(spanish=message, vaf=vaf)).json()['andaluh']
-    for tag in tags: message_and = message_and.replace(tag[0], tag[1])
-    return message_and
-
 def help(update, context):
     """Send a message when with command help."""
     update.message.reply_text(HELP_STRING)
@@ -64,28 +41,28 @@ def inlinequery(update, context):
             id=uuid4(),
             title="EPA (standard)",
             input_message_content=InputTextMessageContent(
-                transliterate(query, u'ç'),
+                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u'ç', escapeLinks=True)).json()['andaluh'],
                 parse_mode=ParseMode.MARKDOWN)),
 
         InlineQueryResultArticle(
             id=uuid4(),
             title="EPA seseante",
             input_message_content=InputTextMessageContent(
-                transliterate(query, u's'),
+                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u's', escapeLinks=True)).json()['andaluh'],
                 parse_mode=ParseMode.MARKDOWN)),    
 
         InlineQueryResultArticle(
             id=uuid4(),
             title="EPA zezeante",
             input_message_content=InputTextMessageContent(
-                transliterate(query, u'z'),
+                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u'z', escapeLinks=True)).json()['andaluh'],
                 parse_mode=ParseMode.MARKDOWN)),
 
         InlineQueryResultArticle(
             id=uuid4(),
             title="EPA heheante",
             input_message_content=InputTextMessageContent(
-                transliterate(query, u'h'),
+                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u'z', escapeLinks=True)).json()['andaluh'],
                 parse_mode=ParseMode.MARKDOWN))
     ]
 
