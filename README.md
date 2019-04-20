@@ -3,7 +3,7 @@
 
 Transliterate your spanish to andaluh EPA using this telegrma bot.
 
-<img width="600" alt="andaluh-slack about" src="https://github.com/andalugeeks/andaluh-telegram/blob/master/img/andaluhbot.png?raw=true">
+<img width="800" alt="andaluh-slack about" src="https://github.com/andalugeeks/andaluh-telegram/blob/master/img/andaluhbot.png?raw=true">
 
 ## Table of Contents
 
