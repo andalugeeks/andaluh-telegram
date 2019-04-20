@@ -5,15 +5,13 @@
 # Copyright (c) 2018 EPA
 # Authors : J. Félix Ontañón <felixonta@gmail.com>
 
-API_BASEURL='https://api.andaluh.es/epa'
-HELP_STRING='Tan solo cítame al inicio de tu mensaje y se te presentarán diferentes opciones de transcripción.'
-
 import os
 import logging
 import re
 import random
 from functools import reduce
 from uuid import uuid4
+import datetime as dt
 
 import requests
 
@@ -21,6 +19,9 @@ from telegram import InlineQueryResultArticle, ParseMode, \
     InputTextMessageContent
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler
 from telegram.utils.helpers import escape_markdown
+
+API_BASEURL=os.environ['APIURL']
+HELP_STRING='Tan solo cítame al inicio de tu mensaje y se te presentarán diferentes opciones de transcripción.'
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

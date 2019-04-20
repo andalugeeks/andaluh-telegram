@@ -9,9 +9,15 @@
     "slack"
   ],
   "env": {
+    "APIURL": {
+      "description": "This bot translates using andaluh-api. You can customize your URL here",
+      "required":"true",
+      "value":"https://api.andaluh.es/epa" 
+    },
     "TOKEN": {
       "description": "Chat with Telegram's @BotFather to retrieve your token",
-      "required": true
+      "required": true,
+      "value":"GET_YOURS_WITH_TELEGRAM_BOTFATHER"
     }
   }
 }

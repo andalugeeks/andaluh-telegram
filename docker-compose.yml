@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  bot:
+    image: andaluh/telegram:v1
+    container_name: andaluh_telegram
+    restart: always
+    build: .
+    environment:
+      - APIURL=https://api.andaluh.es/epa # Or replace with yours
+      - TOKEN=GET_YOURS_WITH_TELEGRAM_BOTFATHER # Replace with yours
