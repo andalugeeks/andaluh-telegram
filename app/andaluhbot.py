@@ -17,7 +17,7 @@ import requests
 
 from telegram import InlineQueryResultArticle, ParseMode, \
     InputTextMessageContent
-from telegram.ext import Updater, InlineQueryHandler, CommandHandler, ChosenInlineResultHandler
+from telegram.ext import Updater, PicklePersistence, InlineQueryHandler, CommandHandler, ChosenInlineResultHandler
 
 API_BASEURL=os.environ['APIURL']
 HELP_STRING='Tan solo cítame al inicio de tu mensaje y se te presentarán diferentes opciones de transcripción.'
@@ -113,7 +113,8 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater(os.environ["TOKEN"], use_context=True)
+    persistence = PicklePersistence(filename='/var/www/data/andaluhbot_data/andaluhbot', store_user_data=True, store_chat_data=False, singe_file=False, on_flush=False )
+    updater = Updater(os.environ["TOKEN"], use_context=True, persistence=persistence)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
