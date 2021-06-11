@@ -63,7 +63,7 @@ def inlinequery(update, context):
             id=uuid4(),
             title="EPA heheante",
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u'z', escapeLinks=True)).json()['andaluh'],
+                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u'h', escapeLinks=True)).json()['andaluh'],
                 parse_mode=ParseMode.MARKDOWN))
     ]
 
