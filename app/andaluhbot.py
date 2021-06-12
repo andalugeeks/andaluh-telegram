@@ -20,6 +20,7 @@ from telegram import InlineQueryResultArticle, ParseMode, \
 from telegram.ext import Updater, PicklePersistence, InlineQueryHandler, CommandHandler, ChosenInlineResultHandler
 
 API_BASEURL=os.environ['APIURL']
+USERPREF_PATH=os.environ.get('USERPREF_PATH', '/var/www/data/andaluhbot_data/userprefs')
 HELP_STRING='Tan solo cítame al inicio de tu mensaje y se te presentarán diferentes opciones de transcripción.'
 
 # Enable logging
@@ -71,6 +72,7 @@ def inlinequery(update, context):
         'vvf:h': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'h')])).json()['andaluh'],
         'vvf:j': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'j')])).json()['andaluh'],
     }
+
     results = [
         InlineQueryResultArticle(
             id='default',
@@ -109,14 +111,14 @@ def inlinequery(update, context):
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vvf:h',
-            title="EPA con /x/ como /h/",
+            title="EPA usando Aspirada[ʰ]",
             description=transliterations['vvf:h'],
             input_message_content=InputTextMessageContent(
                 transliterations['vvf:h'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vvf:j',
-            title="EPA con /x/ como /J/",
+            title="EPA usando Jota",
             description=transliterations['vvf:j'],
             input_message_content=InputTextMessageContent(
                 transliterations['vvf:j'],
@@ -133,7 +135,7 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    persistence = PicklePersistence(filename='/var/www/data/andaluhbot_data/andaluhbot', store_user_data=True, store_chat_data=False, singe_file=False, on_flush=False )
+    persistence = PicklePersistence(filename=USERPREF_PATH, store_user_data=True, store_chat_data=False, singe_file=False, on_flush=False )
     updater = Updater(os.environ["TOKEN"], use_context=True, persistence=persistence)
 
     # Get the dispatcher to register handlers
@@ -161,4 +163,9 @@ def main():
     updater.idle()
 
 if __name__ == '__main__':
+    logger.info('Initializating andalubot with settings: %s', str({
+        "API_BASEURL": API_BASEURL,
+        "USERPREF_PATH": USERPREF_PATH
+    }))
+
     main()
