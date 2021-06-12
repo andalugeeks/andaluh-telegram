@@ -17,8 +17,7 @@ import requests
 
 from telegram import InlineQueryResultArticle, ParseMode, \
     InputTextMessageContent
-from telegram.ext import Updater, InlineQueryHandler, CommandHandler
-from telegram.utils.helpers import escape_markdown
+from telegram.ext import Updater, PicklePersistence, InlineQueryHandler, CommandHandler, ChosenInlineResultHandler
 
 API_BASEURL=os.environ['APIURL']
 HELP_STRING='Tan solo cítame al inicio de tu mensaje y se te presentarán diferentes opciones de transcripción.'
@@ -28,46 +27,83 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def merge_dicts(*dict_args):
+    """
+    Given any number of dictionaries, shallow copy and merge into a new dict,
+    precedence goes to key-value pairs in latter dictionaries.
+    """
+    result = {}
+    for dictionary in dict_args:
+        result.update(dictionary)
+    return result
+
 def help(update, context):
     """Send a message when with command help."""
     update.message.reply_text(HELP_STRING)
 
+def inlinequeryselected(update, context):
+    """Store the last selection for this user"""
+    if update.chosen_inline_result.result_id != 'default':
+        arg, value = update.chosen_inline_result.result_id.split(':', 1)
+        context.user_data[arg] = value
+    logger.info('after updating: ' + str(context.user_data))
+
 def inlinequery(update, context):
     """Handle the inline query."""
     query = update.inline_query.query
-
+    logger.info('inline query with existing user data: ' + str(context.user_data))
+    apiParams = dict(
+        spanish=query,
+        vaf=context.user_data.get('vaf', u'ç'),
+        vvf=context.user_data.get('vvf', u'h'),
+        escapeLinks=True
+    )
     results = [
-
         InlineQueryResultArticle(
-            id=uuid4(),
+            id='default',
+            title="EPA (tus preferencias guardadas)",
+            input_message_content=InputTextMessageContent(
+                requests.get(API_BASEURL, params=apiParams).json()['andaluh'],
+                parse_mode=ParseMode.MARKDOWN)),
+        InlineQueryResultArticle(
+            id='vaf:ç',
             title="EPA (standard)",
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u'ç', escapeLinks=True)).json()['andaluh'],
+                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u'ç')])).json()['andaluh'],
                 parse_mode=ParseMode.MARKDOWN)),
-
         InlineQueryResultArticle(
-            id=uuid4(),
+            id='vaf:s',
             title="EPA seseante",
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u's', escapeLinks=True)).json()['andaluh'],
-                parse_mode=ParseMode.MARKDOWN)),    
-
+                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u's')])).json()['andaluh'],
+                parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
-            id=uuid4(),
+            id='vaf:z',
             title="EPA zezeante",
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u'z', escapeLinks=True)).json()['andaluh'],
+                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u'z')])).json()['andaluh'],
                 parse_mode=ParseMode.MARKDOWN)),
-
         InlineQueryResultArticle(
-            id=uuid4(),
+            id='vaf:h',
             title="EPA heheante",
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=dict(spanish=query, vaf=u'h', escapeLinks=True)).json()['andaluh'],
+                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u'h')])).json()['andaluh'],
+                parse_mode=ParseMode.MARKDOWN)),
+        InlineQueryResultArticle(
+            id='vvf:h',
+            title="EPA con /x/ como /h/",
+            input_message_content=InputTextMessageContent(
+                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'h')])).json()['andaluh'],
+                parse_mode=ParseMode.MARKDOWN)),
+        InlineQueryResultArticle(
+            id='vvf:j',
+            title="EPA con /x/ como /J/",
+            input_message_content=InputTextMessageContent(
+                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'j')])).json()['andaluh'],
                 parse_mode=ParseMode.MARKDOWN))
     ]
-
     update.inline_query.answer(results)
+
 
 def error(update, context):
     """Log Errors caused by Updates."""
@@ -77,7 +113,8 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater(os.environ["TOKEN"], use_context=True)
+    persistence = PicklePersistence(filename='/var/www/data/andaluhbot_data/andaluhbot', store_user_data=True, store_chat_data=False, singe_file=False, on_flush=False )
+    updater = Updater(os.environ["TOKEN"], use_context=True, persistence=persistence)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -89,6 +126,8 @@ def main():
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(InlineQueryHandler(inlinequery))
+    # Handle selection so we store that for latter use.
+    dp.add_handler(ChosenInlineResultHandler(inlinequeryselected))
 
     # log all errors
     dp.add_error_handler(error)
