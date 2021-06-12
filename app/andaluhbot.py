@@ -44,8 +44,12 @@ def help(update, context):
 def inlinequeryselected(update, context):
     """Store the last selection for this user"""
     if update.chosen_inline_result.result_id != 'default':
-        arg, value = update.chosen_inline_result.result_id.split(':', 1)
-        context.user_data[arg] = value
+        if update.chosen_inline_result.result_id != 'standard':
+            arg, value = update.chosen_inline_result.result_id.split(':', 1)
+            context.user_data[arg] = value
+        else:
+            context.user_data['vaf'] = u'ç'
+            context.user_data['vvf'] = u'h'
     logger.info('after updating: ' + str(context.user_data))
 
 def inlinequery(update, context):
@@ -58,48 +62,64 @@ def inlinequery(update, context):
         vvf=context.user_data.get('vvf', u'h'),
         escapeLinks=True
     )
+    transliterations = {
+        'default': requests.get(API_BASEURL, params=apiParams).json()['andaluh'],
+        'standard': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u'ç'), ('vvf', u'h')])).json()['andaluh'],
+        'vaf:s': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u's')])).json()['andaluh'],
+        'vaf:z': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u'z')])).json()['andaluh'],
+        'vaf:h': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u'h')])).json()['andaluh'],
+        'vvf:h': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'h')])).json()['andaluh'],
+        'vvf:j': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'j')])).json()['andaluh'],
+    }
     results = [
         InlineQueryResultArticle(
             id='default',
             title="EPA (tus preferencias guardadas)",
+            description=transliterations['default'],
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=apiParams).json()['andaluh'],
+                transliterations['default'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
-            id='vaf:ç',
+            id='standard',
             title="EPA (standard)",
+            description=transliterations['standard'],
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u'ç')])).json()['andaluh'],
+                transliterations['standard'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vaf:s',
             title="EPA seseante",
+            description=transliterations['vaf:s'],
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u's')])).json()['andaluh'],
+                transliterations['vaf:s'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vaf:z',
             title="EPA zezeante",
+            description=transliterations['vaf:z'],
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u'z')])).json()['andaluh'],
+                transliterations['vaf:z'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vaf:h',
             title="EPA heheante",
+            description=transliterations['vaf:h'],
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vaf', u'h')])).json()['andaluh'],
+                transliterations['vaf:h'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vvf:h',
             title="EPA con /x/ como /h/",
+            description=transliterations['vvf:h'],
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'h')])).json()['andaluh'],
+                transliterations['vvf:h'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vvf:j',
             title="EPA con /x/ como /J/",
+            description=transliterations['vvf:j'],
             input_message_content=InputTextMessageContent(
-                requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'j')])).json()['andaluh'],
+                transliterations['vvf:j'],
                 parse_mode=ParseMode.MARKDOWN))
     ]
     update.inline_query.answer(results)
