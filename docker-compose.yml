@@ -6,8 +6,7 @@ services:
     container_name: andaluh_telegram
     restart: always
     build: .
+    env_file:
+      - .env
     volumes:
       - ./user_data:/var/www/data/andaluhbot_data
-    environment:
-      - APIURL=https://api.andaluh.es/epa # Or replace with yours
-      - TOKEN=GET_YOURS_WITH_TELEGRAM_BOTFATHER # Replace with yours

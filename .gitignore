@@ -2,3 +2,10 @@
 env
 __pycache__
 .vscode
+# python venv
+venv
+# environment sensitive info
+.env
+
+# volume with user data
+user_data
