@@ -9,4 +9,4 @@ services:
     env_file:
       - .env
     volumes:
-      - ./user_data:/var/www/data/andaluhbot_data
+      - ./user_data:/var/www

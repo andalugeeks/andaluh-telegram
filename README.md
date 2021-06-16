@@ -41,8 +41,12 @@ Or dockerised, a better option for production deployments:
 $ docker-compose up --build -d
 ```
 
+**IMPORTANT NOTE**: In order to collect user preferences, you need to `ENABLE` inline feedback with `/setinlinefeedback` BotFather command. Please check doc for further reference: https://core.telegram.org/bots/inline#collecting-feedback
+
 ## Roadmap
 
+* Add `andaluh-py` as an option instead of API.
+* Add a new command to set user preferences
 * Add a new command to exaplain how a transliteration is done, rule by rule. For educationan purposes.
 * Add a new command to retrieve andalugeeks memes. For fun!
 

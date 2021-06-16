@@ -20,7 +20,7 @@ from telegram import InlineQueryResultArticle, ParseMode, \
 from telegram.ext import Updater, PicklePersistence, InlineQueryHandler, CommandHandler, ChosenInlineResultHandler
 
 API_BASEURL=os.environ['APIURL']
-USERPREF_PATH=os.environ.get('USERPREF_PATH', '/var/www/data/andaluhbot_data/userprefs')
+USERPREF_PATH=os.environ.get('USERPREF_PATH', '/var/www/andaluhbot')
 HELP_STRING='Tan solo cítame al inicio de tu mensaje y se te presentarán diferentes opciones de transcripción.'
 
 # Enable logging
@@ -83,42 +83,42 @@ def inlinequery(update, context):
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='standard',
-            title="EPA (standard)",
+            title="Ç: EPA (standard)",
             description=transliterations['standard'],
             input_message_content=InputTextMessageContent(
                 transliterations['standard'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vaf:s',
-            title="EPA seseante",
+            title="S: EPA seseante",
             description=transliterations['vaf:s'],
             input_message_content=InputTextMessageContent(
                 transliterations['vaf:s'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vaf:z',
-            title="EPA zezeante",
+            title="Z: EPA zezeante",
             description=transliterations['vaf:z'],
             input_message_content=InputTextMessageContent(
                 transliterations['vaf:z'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vaf:h',
-            title="EPA heheante",
+            title="H: EPA heheante",
             description=transliterations['vaf:h'],
             input_message_content=InputTextMessageContent(
                 transliterations['vaf:h'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vvf:h',
-            title="EPA usando Aspirada[ʰ]",
+            title="A: EPA usando Aspirada[ʰ]",
             description=transliterations['vvf:h'],
             input_message_content=InputTextMessageContent(
                 transliterations['vvf:h'],
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vvf:j',
-            title="EPA usando Jota",
+            title="J: EPA usando Jota",
             description=transliterations['vvf:j'],
             input_message_content=InputTextMessageContent(
                 transliterations['vvf:j'],
