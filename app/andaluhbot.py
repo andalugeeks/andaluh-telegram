@@ -21,6 +21,8 @@ from telegram.ext import Updater, PicklePersistence, InlineQueryHandler, Command
 
 API_BASEURL=os.environ['APIURL']
 USERPREF_PATH=os.environ.get('USERPREF_PATH', '/var/www/andaluhbot')
+IMG_BASEURL=os.environ.get('IMG_BASEURL', 'https://andaluh.es/img/')
+
 HELP_STRING='Tan solo cítame al inicio de tu mensaje y se te presentarán diferentes opciones de transcripción.'
 
 # Enable logging
@@ -72,11 +74,23 @@ def inlinequery(update, context):
         'vvf:h': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'h')])).json()['andaluh'],
         'vvf:j': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'j')])).json()['andaluh'],
     }
+    images = {
+        'default': "bot-telegram-epa-fav.png",
+        'standard': "bot-telegram-epa.png",
+        'vaf:s': "bot-telegram-ese-fav.png" if apiParams['vaf'] == u's' else "bot-telegram-ese.png",
+        'vaf:z': "bot-telegram-zeta-fav.png" if apiParams['vaf'] == u'z' else "bot-telegram-zeta.png",
+        'vaf:h': "bot-telegram-hache-fav.png" if apiParams['vaf'] == u'h' else "bot-telegram-hache.png",
+        'vvf:h': "bot-telegram-aspirada-fav.png" if apiParams['vvf'] == u'h' else "bot-telegram-aspirada.png",
+        'vvf:j': "bot-telegram-jota-fav.png" if apiParams['vvf'] == u'j' else "bot-telegram-jota.png",
+    }
 
     results = [
         InlineQueryResultArticle(
             id='default',
             title="EPA (tus preferencias guardadas)",
+            thumb_url= IMG_BASEURL + images['default'],
+            thumb_width=450,
+            thumb_height=450,
             description=transliterations['default'],
             input_message_content=InputTextMessageContent(
                 transliterations['default'],
@@ -84,6 +98,9 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='standard',
             title="Ç: EPA (standard)",
+            thumb_url= IMG_BASEURL + images['standard'],
+            thumb_width=450,
+            thumb_height=450,
             description=transliterations['standard'],
             input_message_content=InputTextMessageContent(
                 transliterations['standard'],
@@ -91,6 +108,9 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vaf:s',
             title="S: EPA seseante",
+            thumb_url= IMG_BASEURL + images['vaf:s'],
+            thumb_width=450,
+            thumb_height=450,
             description=transliterations['vaf:s'],
             input_message_content=InputTextMessageContent(
                 transliterations['vaf:s'],
@@ -98,6 +118,9 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vaf:z',
             title="Z: EPA zezeante",
+            thumb_url= IMG_BASEURL + images['vaf:z'],
+            thumb_width=450,
+            thumb_height=450,
             description=transliterations['vaf:z'],
             input_message_content=InputTextMessageContent(
                 transliterations['vaf:z'],
@@ -105,6 +128,9 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vaf:h',
             title="H: EPA heheante",
+            thumb_url= IMG_BASEURL + images['vaf:h'],
+            thumb_width=450,
+            thumb_height=450,
             description=transliterations['vaf:h'],
             input_message_content=InputTextMessageContent(
                 transliterations['vaf:h'],
@@ -112,6 +138,9 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vvf:h',
             title="A: EPA usando Aspirada[ʰ]",
+            thumb_url= IMG_BASEURL + images['vvf:h'],
+            thumb_width=450,
+            thumb_height=450,
             description=transliterations['vvf:h'],
             input_message_content=InputTextMessageContent(
                 transliterations['vvf:h'],
@@ -119,6 +148,9 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vvf:j',
             title="J: EPA usando Jota",
+            thumb_url= IMG_BASEURL + images['vvf:j'],
+            thumb_width=450,
+            thumb_height=450,
             description=transliterations['vvf:j'],
             input_message_content=InputTextMessageContent(
                 transliterations['vvf:j'],
