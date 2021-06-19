@@ -75,8 +75,8 @@ def inlinequery(update, context):
         'vvf:j': requests.get(API_BASEURL, params=merge_dicts(apiParams, [('vvf', u'j')])).json()['andaluh'],
     }
     images = {
-        'default': "bot-telegram-epa-fav.png",
-        'standard': "bot-telegram-epa.png",
+        'default': "bot-telegram-fav.png",
+        'standard': "bot-telegram-epa-fav.png" if (apiParams['vaf'] == u'ç' and apiParams['vvf'] == u'h') else "bot-telegram-epa.png",
         'vaf:s': "bot-telegram-ese-fav.png" if apiParams['vaf'] == u's' else "bot-telegram-ese.png",
         'vaf:z': "bot-telegram-zeta-fav.png" if apiParams['vaf'] == u'z' else "bot-telegram-zeta.png",
         'vaf:h': "bot-telegram-hache-fav.png" if apiParams['vaf'] == u'h' else "bot-telegram-hache.png",
