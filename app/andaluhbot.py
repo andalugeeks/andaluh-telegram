@@ -88,7 +88,7 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='default',
             title="EPA (tus preferencias guardadas)",
-            thumb_url= IMG_BASEURL + images['default'],
+            thumb_url=IMG_BASEURL + images['default'],
             thumb_width=450,
             thumb_height=450,
             description=transliterations['default'],
@@ -98,7 +98,7 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='standard',
             title="Ç: EPA (standard)",
-            thumb_url= IMG_BASEURL + images['standard'],
+            thumb_url=IMG_BASEURL + images['standard'],
             thumb_width=450,
             thumb_height=450,
             description=transliterations['standard'],
@@ -108,7 +108,7 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vaf:s',
             title="S: EPA seseante",
-            thumb_url= IMG_BASEURL + images['vaf:s'],
+            thumb_url=IMG_BASEURL + images['vaf:s'],
             thumb_width=450,
             thumb_height=450,
             description=transliterations['vaf:s'],
@@ -118,7 +118,7 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vaf:z',
             title="Z: EPA zezeante",
-            thumb_url= IMG_BASEURL + images['vaf:z'],
+            thumb_url=IMG_BASEURL + images['vaf:z'],
             thumb_width=450,
             thumb_height=450,
             description=transliterations['vaf:z'],
@@ -128,7 +128,7 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vaf:h',
             title="H: EPA heheante",
-            thumb_url= IMG_BASEURL + images['vaf:h'],
+            thumb_url=IMG_BASEURL + images['vaf:h'],
             thumb_width=450,
             thumb_height=450,
             description=transliterations['vaf:h'],
@@ -138,7 +138,7 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vvf:h',
             title="A: EPA usando Aspirada[ʰ]",
-            thumb_url= IMG_BASEURL + images['vvf:h'],
+            thumb_url=IMG_BASEURL + images['vvf:h'],
             thumb_width=450,
             thumb_height=450,
             description=transliterations['vvf:h'],
@@ -148,7 +148,7 @@ def inlinequery(update, context):
         InlineQueryResultArticle(
             id='vvf:j',
             title="J: EPA usando Jota",
-            thumb_url= IMG_BASEURL + images['vvf:j'],
+            thumb_url=IMG_BASEURL + images['vvf:j'],
             thumb_width=450,
             thumb_height=450,
             description=transliterations['vvf:j'],

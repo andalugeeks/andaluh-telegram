@@ -16,13 +16,13 @@ Transliterate your spanish to andaluh EPA using this telegram bot. This bot stor
 
 First install dependencies
 
-You need to setup 3 environment variables to integrate with Telegram:
+You can setup 4 environment variables to integrate with Telegram. Only `TOKEN` is mandatory:
 
 - `APIURL`: URl for your [andaluh-api](https://github.com/andalugeeks/andaluh-api) instance. You can use ours as well https://api.andaluh.es/epa
 - `TOKEN`: Create your bot with [Telegram's BotFather](https://core.telegram.org/bots) to retrieve your TOKEN
 - `USERPREF_PATH`: Where to store the user preferences persistence storage
-
-You can use the `.env` file to store them secretely. Use the `.env.example` template:
+- `IMG_BASEURL`: Base url of the option icons, by default uses those hosted at https://andaluh.es.
+You can use the `.env` file to store them secretly. Use the `.env.example` template:
 
 ```
 $ cp .env.example .env # and edit the file!
@@ -47,7 +47,7 @@ $ docker-compose up --build -d
 
 * Add `andaluh-py` as an option instead of API.
 * Add a new command to set user preferences
-* Add a new command to exaplain how a transliteration is done, rule by rule. For educationan purposes.
+* Add a new command to explain how a transliteration is done, rule by rule. For educational purposes.
 * Add a new command to retrieve andalugeeks memes. For fun!
 
 ## Support
