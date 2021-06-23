@@ -87,7 +87,7 @@ def inlinequery(update, context):
     results = [
         InlineQueryResultArticle(
             id='default',
-            title="EPA (tus preferencias guardadas)",
+            title="Tus preferencias guardadas",
             thumb_url=IMG_BASEURL + images['default'],
             thumb_width=450,
             thumb_height=450,
@@ -97,7 +97,7 @@ def inlinequery(update, context):
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='standard',
-            title="Ç: EPA (standard)",
+            title="Andalûh EPA (estándar)",
             thumb_url=IMG_BASEURL + images['standard'],
             thumb_width=450,
             thumb_height=450,
@@ -107,7 +107,7 @@ def inlinequery(update, context):
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vaf:s',
-            title="S: EPA seseante",
+            title="EPA Seseando",
             thumb_url=IMG_BASEURL + images['vaf:s'],
             thumb_width=450,
             thumb_height=450,
@@ -117,7 +117,7 @@ def inlinequery(update, context):
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vaf:z',
-            title="Z: EPA zezeante",
+            title="EPA Zezeando",
             thumb_url=IMG_BASEURL + images['vaf:z'],
             thumb_width=450,
             thumb_height=450,
@@ -127,7 +127,7 @@ def inlinequery(update, context):
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vaf:h',
-            title="H: EPA heheante",
+            title="EPA Heheando",
             thumb_url=IMG_BASEURL + images['vaf:h'],
             thumb_width=450,
             thumb_height=450,
@@ -137,7 +137,7 @@ def inlinequery(update, context):
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vvf:h',
-            title="A: EPA usando Aspirada[ʰ]",
+            title="EPA usando Aspirada[ʰ]",
             thumb_url=IMG_BASEURL + images['vvf:h'],
             thumb_width=450,
             thumb_height=450,
@@ -147,7 +147,7 @@ def inlinequery(update, context):
                 parse_mode=ParseMode.MARKDOWN)),
         InlineQueryResultArticle(
             id='vvf:j',
-            title="J: EPA usando Jota",
+            title="EPA usando Jota",
             thumb_url=IMG_BASEURL + images['vvf:j'],
             thumb_width=450,
             thumb_height=450,
